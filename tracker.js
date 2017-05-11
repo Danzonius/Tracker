@@ -10,23 +10,25 @@
  */
 var Tracker = function($parent) {
 
-	// Hold all the data containers in one place
-	var infoboxes = [];
-
-	// See if tracker is currently tracking
-	var tracking = false;
-
-	// Initialize the date for timer
+	/**
+	 *  Initialize the date for timer
+	 *
+	 *  @var 	Date
+	 */
 	var startTime = new Date();
 
-	var location = {
-		'latitude': 0,
-		'longitude': 0
-	};
-
+	/**
+	 *  The browser's language if available
+	 *
+	 *  @var 	Accept-Header language
+	 */
 	var language = window.navigator.language || 'Could not find the language';
 
-	// Activities
+	/**
+	 *  An array holding all the activity elements
+	 *
+	 *  @var 	array container jQuery elements
+	 */
 	var activities = [];
 
 	// Append static info to the parent
@@ -39,16 +41,16 @@ var Tracker = function($parent) {
 	 */
 	navigator.geolocation.getCurrentPosition(function(position) {  
 
-	    // Get latitude and longitude  
+	    /**
+	     *  The requested latitude and longitude
+	     *
+	     *  @var 	coordinates
+	     */
 	    var lat = position.coords.latitude;
 	    var long = position.coords.longitude;
-	    
-	    // Set variables
-	    location.latitude = lat;
-	    location.longitude = long;
 
-	    // Let the user know
-	    $('<li>').text('Your location is: ' + location.latitude + ', ' + location.longitude).appendTo($('.activity'));
+	    // Notify the user
+	    $('<li>').text('Your location is: ' + lat + ', ' + long).appendTo($('.activity'));
 	});
 
 	/**
@@ -57,7 +59,11 @@ var Tracker = function($parent) {
 	 */
 	var trackClicks = function() {
 
-		// Track the clicking
+		/**
+		 *  Track the click events
+		 *
+		 *  @var 	target element
+		 */
 		$parent.on('click', function(e) {
 
 			// The element that has been clicked
@@ -80,9 +86,10 @@ var Tracker = function($parent) {
 		// Track scrolling events (not very efficient)
 		$.each($('main').children().children(), function(i, v) {
 
+			// Listen to events on each child
 			$(v).on('mouseenter', function(e) {
 				
-				// Increment hover amount
+				// Notify the user
 				showActivity('hover', e.currentTarget.id);
 			});
 		});
@@ -94,7 +101,7 @@ var Tracker = function($parent) {
 	 */
 	var trackSelection = function() {
 
-		// Check if something has been selected
+		// Initialize the selected text
 	    var txt = '';
 
 	    // Retrieve selected text
@@ -106,7 +113,7 @@ var Tracker = function($parent) {
 	    // Tracking selection events
 	    $parent.on('mouseup keyup', function(e) {
 
-	    	// Display to the user
+	    	// Notify the user
 			if (txt != '') showActivity('select', txt.toString());
 	    });
 	};
@@ -167,6 +174,7 @@ var Tracker = function($parent) {
 		// Let the user know
 		var $time = $('.time').length ? $('.time') : $('<li class="time">').appendTo('.activity');
 
+		// Notify the user
 		$time.text('Current time spend on this page: ' + difference + ' seconds.');
 	};
 
@@ -176,10 +184,7 @@ var Tracker = function($parent) {
 	 */
 	this.start = function() {
 
-		// Is tracking
-		tracking = true;
-
-		// Track clicks
+		// Start event listeners
 		trackClicks();
 		trackHover();
 		trackSelection();
