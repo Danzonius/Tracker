@@ -1,24 +1,16 @@
 $(document).ready(function() {
 
-	const $header = $('.background');
-	const $title = $('.title');
-	const $main = $('main');
-	const breakpoint = $header.height();
+	// Set all variables
+	const $activityBox = $('.infobox');
+	const breakpoint = $activityBox.offset().top - 48;
 
-	$(window).on('scroll', function() {
+	$(window).scroll(function(e) {
 
+		// Find the current window pos
 		let pos = $(window).scrollTop();
 
-		if (pos > breakpoint) {
-			$header.addClass('scrolled');
-			$title.addClass('scrolled');
-			$main.addClass('scrolled');
-		};
-
-		if (pos < breakpoint) {
-			$header.removeClass('scrolled');
-			$title.removeClass('scrolled');
-			$main.removeClass('scrolled');
-		};
+		// Toggle class if the breakpoint has been reached
+		if (pos > breakpoint) $activityBox.addClass('scroll'); 
+		if (pos < breakpoint) $activityBox.removeClass('scroll');
 	});
 });
